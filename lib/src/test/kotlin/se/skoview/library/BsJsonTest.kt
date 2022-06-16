@@ -28,15 +28,6 @@ class BsJsonTest {
 
     val la1 = LogicalAddress("SE2321000016-I1B7", "VE: SLL - Testenhet 17 CSTC")
 
-    @Test
-    fun checkSectionTypeEnum() {
-        val check: Boolean =
-            SectionType.values().size == 2 &&
-                SectionType.INCLUDE in SectionType.values() &&
-                SectionType.EXCLUDE in SectionType.values()
-
-        assertTrue(check, "SectionType enum is not correct")
-    }
 
     @Test
     fun checkPlatformProperty() {

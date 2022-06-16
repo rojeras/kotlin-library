@@ -10,12 +10,14 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import java.time.LocalDateTime
 
-@Serializable
-enum class SectionType {
-    INCLUDE,
-    EXCLUDE
-}
 
+/**
+ * Riv ta profile
+ * Enum class to handle to two allowed values of RIVTAPROFILE in RIVTA.
+ *
+ * @property profile
+ * @constructor Create empty Riv ta profile
+ */
 @Serializable
 enum class RivTaProfile(val profile: String) {
     RIVTABP20("RIVTABP20"),
@@ -50,6 +52,16 @@ data class LogicalAddress(
     val beskrivning: String? = null,
 )
 
+/**
+ * Authority
+ *
+ * The create() method makes it possible to instantiate an instance based on other objects.
+ *
+ * @property tjanstekonsument
+ * @property logiskAdress
+ * @property tjanstekontrakt
+ * @constructor Create empty Authority
+ */
 @Serializable
 data class Authority(
     val tjanstekonsument: String,
@@ -71,6 +83,18 @@ data class Authority(
     }
 }
 
+/**
+ * Routing
+ *
+ * The create() method makes it possible to instantiate an instance based on other objects.
+ *
+ * @property tjanstekomponent
+ * @property logiskAdress
+ * @property tjanstekontrakt
+ * @property rivtaprofil
+ * @property adress
+ * @constructor Create empty Routing
+ */
 @Serializable
 data class Routing(
     val tjanstekomponent: String,
@@ -154,7 +178,7 @@ data class BsJson(
     }
 
     @kotlinx.serialization.ExperimentalSerializationApi
-    fun writeJsonFile(filename: String) {
+    fun writeJsonFile(filename: String?) {
         val jsonOut = Json {
             encodeDefaults = true
             prettyPrint = true
@@ -162,8 +186,8 @@ data class BsJson(
         }
 
         val jsonText: String = jsonOut.encodeToString(BsJson.serializer(), this)
-        println(jsonText)
-        File("$filename.json").writeText(jsonText)
+        if (! filename.isNullOrBlank()) File("$filename.json").writeText(jsonText)
+        else println(jsonText)
     }
 }
 

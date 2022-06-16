@@ -6,6 +6,7 @@
  * User Manual available at https://docs.gradle.org/7.4.2/userguide/building_java_projects.html
  */
 
+group = "se.skoview"
 version = "0.1.0"
 
 plugins {
@@ -15,8 +16,11 @@ plugins {
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
 
+    `maven-publish`
+
     kotlin("jvm") version "1.7.0"
     kotlin("plugin.serialization") version "1.7.0"
+    id("org.jetbrains.dokka") version "1.6.21"
 }
 
 repositories {
@@ -42,6 +46,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.6.21")
+
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api("org.apache.commons:commons-math3:3.6.1")
 }
@@ -59,4 +65,12 @@ tasks.jar {
 
 java {
     withSourcesJar()
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("yourbuild") {
+            from(components["java"])
+        }
+    }
 }
